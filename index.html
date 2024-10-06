@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Class Implementation</title>
+</head>
+<body>
+    <h1>Student Class Implementation</h1>
+    <div id="output"></div>
+
+    <script>
+        // Person class
+        class Person {
+            constructor(name, age) {
+                this.name = name;
+                this.age = age;
+            }
+
+            introduce() {
+                return `My name is ${this.name} and I'm ${this.age} years old.`;
+            }
+        }
+
+        // Student class inheriting from Person
+        class Student extends Person {
+            constructor(name, age, rollNo, grade) {
+                super(name, age);
+                this.setRollNo(rollNo);
+                this.grade = grade;
+            }
+
+            // Setter for rollNo with exception handling
+            setRollNo(rollNo) {
+                if (rollNo <= 0) {
+                    throw new Error("Roll number must be greater than zero.");
+                }
+                this.rollNo = rollNo;
+            }
+
+            // Override the introduce method
+            introduce() {
+                return `${super.introduce()} I'm a student with roll number ${this.rollNo} in grade ${this.grade}.`;
+            }
+
+            // Additional method specific to Student
+            study() {
+                return `${this.name} is studying hard!`;
+            }
+        }
+
+        function demonstrateStudentClass() {
+            const output = document.getElementById('output');
+
+            try {
+                const name = prompt("Enter student name:");
+                const age = parseInt(prompt("Enter student age:"));
+                const rollNo = parseInt(prompt("Enter student roll number:"));
+                const grade = parseInt(prompt("Enter student grade:"));
+
+                const student = new Student(name, age, rollNo, grade);
+                output.innerHTML += `<p>${student.introduce()}</p>`;
+                output.innerHTML += `<p>${student.study()}</p>`;
+            } catch (error) {
+                output.innerHTML += `<p>Error: ${error.message}</p>`;
+            }
+
+            // Additional demonstration with invalid roll number
+            try {
+                const invalidRollNo = parseInt(prompt("Enter an invalid roll number (0 or negative):"));
+                const invalidStudent = new Student("Invalid", 17, invalidRollNo, 11);
+            } catch (error) {
+                output.innerHTML += `<p>Error for invalid roll number: ${error.message}</p>`;
+            }
+        }
+
+        window.onload = demonstrateStudentClass;
+    </script>
+</body>
+</html>
